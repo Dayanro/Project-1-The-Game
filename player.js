@@ -1,91 +1,95 @@
 class Player {
 
-    // constructor(ctx, gameWidth, gameHeight, keys) {
+    constructor(ctx, gameWidth, gameHeight, keys) {
+        this.ctx = ctx;
 
-    //     this.ctx = ctx;
+        this.gameWidth = gameWidth;
+        this.gameHeight = gameHeight;
 
-    //     this.gameWidth = gameWidth;
-    //     this.gameHeight = gameHeight;
+        this.spriteWidth = 137;
+        this.spriteHeight = 49;
 
-    //     this.width = 100;
-    //     this.height = 100;
 
-    //     this.image = new Image();
-    //     this.image.src = "./img/player.png";
+        this.image = new Image();
+        this.image.src = "./img/zelda6.png";
 
-    //     this.image.frames = 3;
-    //     this.image.framesIndex = 0;
+        let rows = 1;
+        let cols = 4;
 
-    //     this.posX = 20;
-    //     this.posY = this.gameHeight - this.height - 20;
-    //     this.posY0 = this.posY;
+        this.image.framesIndex = 0;
+        this.image.frames = 4;
+        this.maxFrameLength = 2
 
-    //     this.keys = keys;
+        this.width = 50
+        this.height = 50
 
-    //     this.velY = 1;
-    //     this.gravity = 0.4;
+        this.posX = 400;
+        this.posY = 200;
+        this.posY0 = this.posY;
 
-    //     this.bullets = [];
 
-    //     this.setListeners();
-    // }
+        this.keys = keys;
 
-    // draw(framesCounter) {
+        this.velY = 4;
+        this.gravity = 0.4;
 
-    //     this.ctx.drawImage(
-    //         this.image,
-    //         this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
-    //         0,
-    //         Math.floor(this.image.width / this.image.frames),
-    //         this.image.height,
-    //         this.posX,
-    //         this.posY,
-    //         this.width,
-    //         this.height
-    //     );
+        this.bullets = [];
 
-    //     this.animate(framesCounter);
-    //     this.bullets.forEach(bullet => bullet.draw())
-    //     this.clearBullets()
-    //     this.move()
-    // }
+        this.setListeners();
+    }
 
-    // animate(framesCounter) {
-    //     if (framesCounter % 5 == 0) {
-    //         this.image.framesIndex++;
-    //     }
-    //     if (this.image.framesIndex > this.image.frames - 1) {
-    //         this.image.framesIndex = 0;
-    //     }
-    // }
+    draw(framesCounter) {
+        const frameX = this.image.framesIndex;
+        const frameY = 0;
+        const sx = frameX * Math.floor(this.spriteWidth / this.image.frames);
+        const sy = frameY;
 
-    // move() {
+        // if (this.image.frames > this.maxFrameLength) this.image.frames = 0;
+        this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.image.height, this.posX, this.posY, this.width, this.height);
+        //this.bullets.forEach(bullet => bullet.draw())
+        //this.clearBullets()
+        //this.move()
 
-    //     if (this.posY < this.posY0) {
-    //         this.posY += this.velY;
-    //         this.velY += this.gravity;
-    //     } else {
-    //         this.posY = this.posY0;
-    //         this.velY = 1;
-    //     }
+    }
 
-    // }
+    animate(pos) {
+        this.image.posY = pos[1];
+        this.image.framesIndex = ++this.image.framesIndex % (this.image.frames / 2);
+    }
 
-    // setListeners() {
-    //     document.addEventListener("keydown", e => {
-    //         switch (e.keyCode) {
-    //             case this.keys.TOP:
-    //                 if (this.posY >= this.posY0) {
-    //                     this.posY -= 40;
-    //                     this.velY -= 8;
-    //                 }
-    //                 break;
-    //             case this.keys.SPACE:
-    //                 this.shoot();
-    //                 break;
-    //         }
-    //     });
-    // }
+    move(dir) {
+        dir === 'left' ? this.posX -= this.velY : null
+        dir === 'right' ? this.posX += this.velY : null
+        dir === 'top' ? this.posY -= this.velY : null
+        dir === 'down' ? this.posY += this.velY : null
+    }
+
+    setListeners() {
+        document.addEventListener("keydown", e => {
+            switch (e.keyCode) {
+                case this.keys.TOP:
+                    this.move('top')
+                    this.animate();
+                    break;
+                case this.keys.LEFT:
+                    this.move('left')
+                    this.animate([0, 1]);
+                    break;
+                case this.keys.RIGHT:
+                    this.move('right')
+                    this.animate();
+                    break;
+                case this.keys.DOWN:
+                    this.move('down')
+                    this.animate();
+                    break;
+                case this.keys.SPACE:
+                    this.shoot();
+                    this.animate();
+                    break;
+            }
+        });
+    }
 
     // shoot() {
     //     this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height));
