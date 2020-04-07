@@ -29,12 +29,10 @@ class Player {
 
         this.keys = keys;
 
-        this.speed = 10;
+        this.speed = 6;
         this.gravity = 0.4;
 
         this.bullets = [];
-
-        //this.setListeners();
     }
 
     draw(framesCounter) {
@@ -61,6 +59,7 @@ class Player {
         console.log('INDEX', this.image.framesIndex)
         console.log('position', this.posX, this.posY)
     }
+
     move(dir) {
 
         dir === 'left' ? this.posX -= this.speed : null
@@ -68,34 +67,6 @@ class Player {
         dir === 'top' ? this.posY -= this.speed : null
         dir === 'down' ? this.posY += this.speed : null
     }
-
-    // setListeners() {
-    //     document.addEventListener("keydown", e => {
-    //         switch (e.keyCode) {
-    //             case this.keys.TOP:
-    //                 console.log(this.keys.TOP)
-    //                 this.move('top')
-    //                 this.animate([0, 3], [0, 1, 2, 3])
-    //                 break;
-    //             case this.keys.LEFT:
-    //                 this.move('left')
-    //                 this.animate([0, 1], [0, 1, 2, 3]);
-    //                 break;
-    //             case this.keys.RIGHT:
-    //                 this.move('right')
-    //                 this.animate([0, 2], [0, 1, 2, 3]);
-    //                 break;
-    //             case this.keys.DOWN:
-    //                 this.move('down')
-    //                 this.animate([0, 0], [0, 1, 2, 3]);
-    //                 break;
-    //             case this.keys.SPACE:
-    //                 this.shoot();
-    //                 this.animate();
-    //                 break;
-    //         }
-    //     });
-    // }
 
     shoot() {
         this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height));

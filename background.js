@@ -38,7 +38,7 @@ class Background {
     drawWalls() {
         this.walls.forEach(value => {
             this.ctx.strokeStyle = 'red'//'rgba(255, 0, 0, 0)'
-            this.ctx.strokeRect(value.posX, value.posY, value.width, value.heigh)
+            this.ctx.strokeRect(value.posX, value.posY, value.width, value.height)
         })
     }
     // move() {

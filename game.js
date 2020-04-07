@@ -12,7 +12,9 @@ const game = {
     framesCounter: 0,
     background: undefined,
     player: undefined,
-    obstacles: [],
+    enemies: [],
+
+    //obstacles: [],
     keys: {
         TOP: 38,
         LEFT: 37,
@@ -47,9 +49,6 @@ const game = {
 
             this.clear();
             this.drawAll();
-            //this.touches()
-
-
             //         this.generateObstacles();
             //         this.clearObstacles();
 
@@ -57,7 +56,6 @@ const game = {
             //         if (this.isCollision()) {
             //             this.gameOver();
             //         }
-
         }, 1000 / this.FPS);
     },
 
@@ -65,12 +63,14 @@ const game = {
         this.background.draw();
         this.background.drawWalls()
         this.player.draw(this.framesCounter);
+        this.enemy.draw(this.framesCounter);
         //     this.obstacles.forEach(obs => obs.draw());
     },
 
     reset() {
         this.background = new Background(this.ctx, this.width, this.height, "./img/level1.png");
         this.player = new Player(this.ctx, this.width, this.height, this.keys);
+        this.enemy = new Enemy(this.ctx, this.width, this.height)
         //     this.obstacles = [];
     },
 
@@ -98,7 +98,6 @@ const game = {
             player.posY < wall.posY + wall.height) {
             console.log('OVERLAP TRUEEEEEEE')
             return true;
-
         }
         return false;
     },
@@ -108,16 +107,6 @@ const game = {
         let trackPosY = this.player.posY
         let trackSpeed = this.player.speed
         document.addEventListener("keydown", e => {
-            // if (e.keyCode == this.keys.TOP) {
-            //     trackPosY -= trackSpeed
-            //     if (!this.touches({ ...this.player, posY: trackPosY })) {
-            //         this.player.move('top')
-            //         this.player.animate([0, 3], [0, 1, 2, 3])
-            //     }
-            //     // else {
-            //     //     this.player.speed = 0
-            //     // }
-            // }
             switch (e.keyCode) {
                 case this.keys.TOP:
                     trackPosY -= trackSpeed
