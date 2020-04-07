@@ -6,7 +6,7 @@ class Player {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
-        this.spriteWidth = 132;
+        this.spriteWidth = 135;
         this.spriteHeight = 195;
 
 
@@ -23,13 +23,13 @@ class Player {
         this.status = ["POWER", "NORMAL"]
         this.actualStatus = this.status[0];
 
-        this.posX = 400;
-        this.posY = 200;
+        this.posX = 356;
+        this.posY = 450;
         this.posY0 = this.posY;
 
         this.keys = keys;
 
-        this.velY = 4;
+        this.speed = 5;
         this.gravity = 0.4;
 
         this.bullets = [];
@@ -43,14 +43,14 @@ class Player {
         const sx = frameX * Math.floor(this.spriteWidth / this.image.frames);
         const sy = frameY * Math.floor(this.spriteHeight / this.image.rows);
 
-        console.log('width', sx)
-        console.log('height', sy)
+        //console.log('width', sx)
+        //console.log('height', sy)
 
 
         this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height);
-        //this.bullets.forEach(bullet => bullet.draw())
-        //this.clearBullets()
-        //this.move()
+        this.bullets.forEach(bullet => bullet.draw())
+        this.clearBullets()
+        this.move()
 
     }
 
@@ -59,21 +59,30 @@ class Player {
         let max = spriteIndexs.length
         this.image.framesIndex = (++this.image.framesIndex % max);
         console.log('INDEX', this.image.framesIndex)
+        console.log('position', this.posX, this.posY)
     }
 
     move(dir) {
-        dir === 'left' ? this.posX -= this.velY : null
-        dir === 'right' ? this.posX += this.velY : null
-        dir === 'top' ? this.posY -= this.velY : null
-        dir === 'down' ? this.posY += this.velY : null
+
+        dir === 'left' ? this.posX -= this.speed : null
+        dir === 'right' ? this.posX += this.speed : null
+        dir === 'top' ? this.posY -= this.speed : null
+        dir === 'down' ? this.posY += this.speed : null
+
+    }
+
+    update() {
+
+
     }
 
     setListeners() {
         document.addEventListener("keydown", e => {
             switch (e.keyCode) {
                 case this.keys.TOP:
+                    console.log(this.keys.TOP)
                     this.move('top')
-                    this.animate([0, 3], [0, 1, 2, 3]);
+                    this.animate([0, 3], [0, 1, 2, 3])
                     break;
                 case this.keys.LEFT:
                     this.move('left')
@@ -95,11 +104,13 @@ class Player {
         });
     }
 
-    // shoot() {
-    //     this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height));
-    // }
+    shoot() {
+        this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height));
+    }
 
-    // clearBullets() {
-    //     this.bullets = this.bullets.filter(bull => bull.posX <= this.gameWidth);
-    // }
+    clearBullets() {
+        this.bullets = this.bullets.filter(bull => bull.posX <= this.gameWidth);
+    }
+
+
 }
