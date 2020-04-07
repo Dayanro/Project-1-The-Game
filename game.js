@@ -37,6 +37,7 @@ const game = {
 
     start() {
         this.reset();
+        this.setListeners();
 
         this.interval = setInterval(() => {
             if (this.framesCounter > 5000) {
@@ -46,7 +47,8 @@ const game = {
 
             this.clear();
             this.drawAll();
-            this.touches()
+            //this.touches()
+
 
             //         this.generateObstacles();
             //         this.clearObstacles();
@@ -85,11 +87,8 @@ const game = {
     // clearObstacles() {
     //     this.obstacles = this.obstacles.filter(obs => obs.posX >= 0);
     // },
-    touches() {
-        console.log("HEYYYY")
-        this.background.walls.forEach(wall =>
-            this.overlap(this.player, wall)
-        )
+    touches(player) {
+        return this.background.walls.some(wall => this.overlap(player, wall))
     },
 
     overlap(player, wall) {
@@ -97,13 +96,67 @@ const game = {
             player.posX < wall.posX + wall.width &&
             player.posY + player.height > wall.posY &&
             player.posY < wall.posY + wall.height) {
-            console.log("FUERA")
-            return true
+            console.log('OVERLAP TRUEEEEEEE')
+            return true;
+
         }
+        return false;
+    },
+
+    setListeners() {
+        let trackPosX = this.player.posX
+        let trackPosY = this.player.posY
+        let trackSpeed = this.player.speed
+        document.addEventListener("keydown", e => {
+            // if (e.keyCode == this.keys.TOP) {
+            //     trackPosY -= trackSpeed
+            //     if (!this.touches({ ...this.player, posY: trackPosY })) {
+            //         this.player.move('top')
+            //         this.player.animate([0, 3], [0, 1, 2, 3])
+            //     }
+            //     // else {
+            //     //     this.player.speed = 0
+            //     // }
+            // }
+            switch (e.keyCode) {
+                case this.keys.TOP:
+                    trackPosY -= trackSpeed
+                    if (!this.touches({ ...this.player, posY: trackPosY })) {
+                        this.player.move('top')
+                        this.player.animate([0, 3], [0, 1, 2, 3])
+                    }
+                    break;
+                case this.keys.LEFT:
+                    trackPosX -= trackSpeed
+                    if (!this.touches({ ...this.player, posX: trackPosX })) {
+                        this.player.move('left')
+                        this.player.animate([0, 1], [0, 1, 2, 3])
+                    }
+                    break;
+                case this.keys.RIGHT:
+                    trackPosX += trackSpeed
+                    if (!this.touches({ ...this.player, posX: trackPosX })) {
+                        this.player.move('right')
+                        this.player.animate([0, 2], [0, 1, 2, 3]);
+                    }
+                    break;
+                case this.keys.DOWN:
+                    trackPosY += trackSpeed
+                    if (!this.touches({ ...this.player, posY: trackPosY })) {
+                        this.player.move('down')
+                        this.player.animate([0, 0], [0, 1, 2, 3]);
+                    }
+                    break;
+                case this.keys.SPACE:
+                    this.player.shoot();
+                    this.player.animate();
+                    break;
+            }
+        });
     }
 
     // isCollision() {
-    //     return this.obstacles.some(obs => {
+    //    return this.obstacles.some(obs => {
     //         return (
     //             this.player.posX + this.player.width >= obs.posX &&
     //             this.player.posY + this.player.height >= obs.posY &&
