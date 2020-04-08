@@ -22,29 +22,22 @@ class Background {
         { posX: 1119, posY: 229, width: 64, height: 482 }// right side
         ]
 
-        // this.velX = 5;
     }
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-        //this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-        // this.move()
+
+
     }
 
     drawElements() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-        //this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-        // this.move()
+
     }
     drawWalls() {
         this.walls.forEach(value => {
-            this.ctx.strokeStyle = 'red'//'rgba(255, 0, 0, 0)'
+            this.ctx.strokeStyle = 'rgba(255, 0, 0, 0)' // 'red'
             this.ctx.strokeRect(value.posX, value.posY, value.width, value.height)
         })
     }
-    // move() {
-    //     if (this.posX <= -this.width) {
-    //         this.posX = 0;
-    //     }
-    //     this.posX -= this.velX;
-    // }
+
 }

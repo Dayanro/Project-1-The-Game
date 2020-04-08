@@ -84,9 +84,9 @@ const game = {
     //     }
     // },
 
-    // clearObstacles() {
-    //     this.obstacles = this.obstacles.filter(obs => obs.posX >= 0);
-    // },
+    clearObstacles() {
+        this.obstacles = this.obstacles.filter(obs => obs.posX >= 0);
+    },
     touches(player) {
         return this.background.walls.some(wall => this.overlap(player, wall))
     },
@@ -145,18 +145,12 @@ const game = {
     }
 
     // isCollision() {
-    //    return this.obstacles.some(obs => {
-    //         return (
-    //             this.player.posX + this.player.width >= obs.posX &&
-    //             this.player.posY + this.player.height >= obs.posY &&
-    //             this.player.posX <= obs.posX + obs.width
-    //         );
-    //     });
+    //    
     // },
 
     // gameOver() {
     //     clearInterval(this.interval);
-    //}
+    // }
 
 
 }
