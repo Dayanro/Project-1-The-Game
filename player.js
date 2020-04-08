@@ -1,8 +1,8 @@
 class Player {
 
-    constructor(ctx, gameWidth, gameHeight, keys) {
+    constructor(ctx, gameWidth, gameHeight, keys, level) {
         this.ctx = ctx;
-
+        this.level = level
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
@@ -23,13 +23,13 @@ class Player {
         this.status = ["POWER", "NORMAL"]
         this.actualStatus = this.status[0];
 
-        this.posX = 356;
+        this.posX = 340;
         this.posY = 450;
         this.posY0 = this.posY;
 
         this.keys = keys;
 
-        this.speed = 6;
+        this.speed = 10;
         this.gravity = 0.4;
 
         this.bullets = [];
@@ -38,8 +38,8 @@ class Player {
     draw(framesCounter) {
         const frameX = this.image.framesIndex;
         const frameY = this.image.posY;
-        const sx = frameX * Math.floor(this.spriteWidth / this.image.frames);
-        const sy = frameY * Math.floor(this.spriteHeight / this.image.rows);
+        const sx = frameX * Math.floor(this.image.width / this.image.frames);
+        const sy = frameY * Math.floor(this.image.height / this.image.rows);
 
         //console.log('width', sx)
         //console.log('height', sy)
@@ -56,8 +56,10 @@ class Player {
         this.image.posY = pos[1];
         let max = spriteIndexs.length
         this.image.framesIndex = (++this.image.framesIndex % max);
-        console.log('INDEX', this.image.framesIndex)
-        console.log('position', this.posX, this.posY)
+
+
+        //console.log('INDEX', this.image.framesIndex)
+        //console.log('position', this.posX, this.posY)
     }
 
     move(dir) {

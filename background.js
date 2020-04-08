@@ -21,17 +21,13 @@ class Background {
         { posX: 1055, posY: 560, width: 64, height: 53 },//right botton
         { posX: 1119, posY: 229, width: 64, height: 482 }// right side
         ]
-
     }
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-
-
     }
 
     drawElements() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
-
     }
     drawWalls() {
         this.walls.forEach(value => {
