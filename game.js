@@ -52,10 +52,9 @@ const game = {
             //         this.generateObstacles();
             //         this.clearObstacles();
 
-
-            //         if (this.isCollision()) {
-            //             this.gameOver();
-            //         }
+            if (this.touchesEnemies(this.player)) {
+                this.gameOver();
+            }
         }, 1000 / this.FPS);
     },
 
@@ -63,14 +62,15 @@ const game = {
         this.background.draw();
         this.background.drawWalls()
         this.player.draw(this.framesCounter);
-        this.enemy.draw(this.framesCounter);
+        this.enemies.forEach(enemy => enemy.draw(this.framesCounter));
         //     this.obstacles.forEach(obs => obs.draw());
     },
 
     reset() {
         this.background = new Background(this.ctx, this.width, this.height, "./img/level1.png");
         this.player = new Player(this.ctx, this.width, this.height, this.keys);
-        this.enemy = new Enemy(this.ctx, this.width, this.height)
+        let enemy1 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 149, 5, 1, 1, [0, 1, 2, 3, 4], 500, 470, 80, 80)
+        this.enemies.push(enemy1)
         //     this.obstacles = [];
     },
 
@@ -87,15 +87,19 @@ const game = {
     clearObstacles() {
         this.obstacles = this.obstacles.filter(obs => obs.posX >= 0);
     },
-    touches(player) {
+    touchesWalls(player) {
         return this.background.walls.some(wall => this.overlap(player, wall))
     },
+    touchesEnemies(player) {
+        console.log
+        return this.enemies.some(enemy => this.overlap(player, enemy))
+    },
 
-    overlap(player, wall) {
-        if (player.posX + player.width > wall.posX &&
-            player.posX < wall.posX + wall.width &&
-            player.posY + player.height > wall.posY &&
-            player.posY < wall.posY + wall.height) {
+    overlap(player, entity) {
+        if (player.posX + player.width > entity.posX &&
+            player.posX < entity.posX + entity.width &&
+            player.posY + player.height > entity.posY &&
+            player.posY < entity.posY + entity.height) {
             console.log('OVERLAP TRUEEEEEEE')
             return true;
         }
@@ -110,28 +114,28 @@ const game = {
             switch (e.keyCode) {
                 case this.keys.TOP:
                     trackPosY -= trackSpeed
-                    if (!this.touches({ ...this.player, posY: trackPosY })) {
+                    if (!this.touchesWalls({ ...this.player, posY: trackPosY })) {
                         this.player.move('top')
                         this.player.animate([0, 3], [0, 1, 2, 3])
                     }
                     break;
                 case this.keys.LEFT:
                     trackPosX -= trackSpeed
-                    if (!this.touches({ ...this.player, posX: trackPosX })) {
+                    if (!this.touchesWalls({ ...this.player, posX: trackPosX })) {
                         this.player.move('left')
                         this.player.animate([0, 1], [0, 1, 2, 3])
                     }
                     break;
                 case this.keys.RIGHT:
                     trackPosX += trackSpeed
-                    if (!this.touches({ ...this.player, posX: trackPosX })) {
+                    if (!this.touchesWalls({ ...this.player, posX: trackPosX })) {
                         this.player.move('right')
                         this.player.animate([0, 2], [0, 1, 2, 3]);
                     }
                     break;
                 case this.keys.DOWN:
                     trackPosY += trackSpeed
-                    if (!this.touches({ ...this.player, posY: trackPosY })) {
+                    if (!this.touchesWalls({ ...this.player, posY: trackPosY })) {
                         this.player.move('down')
                         this.player.animate([0, 0], [0, 1, 2, 3]);
                     }
@@ -142,15 +146,11 @@ const game = {
                     break;
             }
         });
+    },
+
+    gameOver() {
+        clearInterval(this.interval);
     }
-
-    // isCollision() {
-    //    
-    // },
-
-    // gameOver() {
-    //     clearInterval(this.interval);
-    // }
 
 
 }

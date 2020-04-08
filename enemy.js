@@ -1,27 +1,26 @@
 class Enemy {
-    constructor(ctx, gameWidth, gameHeight) {
+    constructor(ctx, gameWidth, gameHeight, url, spriteWidth, spriteHeight, frames, speed, rows, spriteIndexs, posX, posY, width, height) {
         this.ctx = ctx;
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
 
-        this.spriteWidth = 483;
-        this.spriteHeight = 159;
-
         this.image = new Image();
-        this.image.src = "./img/enemy1.png";
+        this.image.src = url
+
+        this.spriteWidth = spriteWidth
+        this.spriteHeight = spriteHeight
 
         this.image.framesIndex = 0;
-        this.image.frames = 5;
-        this.image.rows = 1;
-        this.spriteIndexs = [0, 1, 2, 3, 4]
+        this.image.frames = frames
+        this.image.rows = rows
+        this.speed = speed
+        this.spriteIndexs = spriteIndexs
 
-        this.width = 80
-        this.height = 80
+        this.width = width
+        this.height = height
 
-        this.posX = 500;
-        this.posY = 470;
-
-        this.speed = 1;
+        this.posX = posX
+        this.posY = posY
 
     }
     draw(framesCounter) {
@@ -35,16 +34,21 @@ class Enemy {
         this.image.framesIndex = (this.image.framesIndex + 2) % max;
         //this.posX += this.speed
         this.moveX()
+        console.log(this.posX)
     }
     moveX() {
-        //let dx0 = this.posX
+
         this.posX += this.speed
-        if (this.posX == 1030) {
-            this.speed = this.speed * (-1)
-            return this.posX += this.speed
-
+        for (let i = 1; i <= 20; i++) {
+            if (this.posX == 1030) {
+                this.speed = this.speed * (-1)
+                this.posX += this.speed
+            }
+            if (this.posX == 500) {
+                this.speed = this.speed * (-1)
+                this.posX += this.speed
+            }
         }
-
 
     }
 }
