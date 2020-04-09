@@ -36,7 +36,7 @@ class Enemy {
         const sy = 0;
         this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height)
         let max = this.spriteIndexs.length
-        this.image.framesIndex = (this.image.framesIndex + 2) % max;
+        this.image.framesIndex = (this.image.framesIndex + 60) % max;
         //this.posX += this.speed
         this.moveX()
         //console.log(this.posX)

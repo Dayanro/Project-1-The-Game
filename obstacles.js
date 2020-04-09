@@ -2,12 +2,12 @@ class Obstacle {
     constructor(ctx, gameWidth, playerPosY0, playerHeight) {
         this.ctx = ctx;
         this.width = 35;
-        this.height = this.width / 3;
+        this.height = this.width;
 
         this.posX = 943;
         this.posY = 300;
 
-        this.velY = 1;
+        this.velY = 0, 1;
     }
 
     draw() {

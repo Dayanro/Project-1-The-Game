@@ -8,6 +8,8 @@ const game = {
     ctx: undefined,
     width: undefined,
     height: undefined,
+    heartImage: new Image(),
+
     FPS: 60,
     framesCounter: 0,
     background: undefined,
@@ -46,11 +48,11 @@ const game = {
                 this.framesCounter = 0;
             }
             this.framesCounter++;
-
             this.clear();
             this.drawAll();
             this.generateObstacles();
             this.clearObstacles();
+            this.nextLevel()
 
             if (this.touchesEnemies(this.player)) {
                 this.gameOver();
@@ -62,21 +64,32 @@ const game = {
         this.background.draw();
         this.background.drawWalls()
         this.player.draw(this.framesCounter);
+        this.drawBoard()
         this.enemies.forEach(enemy => enemy.draw(this.framesCounter));
         this.obstacles.forEach(obs => obs.draw());
+
+    },
+    drawBoard() {
+        this.heartImage.src = "./img/heart1.png"
+        this.ctx.drawImage(this.heartImage, 200, 100, 50, 50)
     },
 
-
     nextLevel() {
-        if (this.player.posX == 288) reset(2)
+        console.log("nextLevel")
+        if (this.player.posX > 1100) {
+            this.level++
+            console.log('DISTANCIA', this.level)
+            this.reset(this.level)
+        }
     },
 
     reset(level) {
+        this.enemies = []
         switch (level) {
             case 1:
                 this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
                 this.player = new Player(this.ctx, this.width, this.height, this.keys, 1);
-                let enemy11 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4], 300, 300, 80, 80, 1)
+                let enemy11 = new Enemy(this.ctx, this.width, this.height, "./img/enemy-1.png", 185, 54, 3, 1, 1, [0, 1, 2], 300, 300, 60, 60, 1)
                 this.enemies.push(enemy11)
                 let enemy12 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 2, 1, [0, 1, 2, 3, 4, 5], 530, 300, 80, 80, 1)
                 this.enemies.push(enemy12)
@@ -86,7 +99,9 @@ const game = {
                 this.enemies.push(enemy14)
                 let enemy15 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4, 5], 1100, 300, 80, 80, 1)
                 this.enemies.push(enemy15)
+                //this.background.drawElements = new Element(this.ctx, this.width, this.height, "./img/heart1.png", 200, 100, 50, 50))
                 this.obstacles = [];
+
                 break;
             case 2:
                 this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
@@ -109,7 +124,13 @@ const game = {
                 // this.enemies.push(enemy28)
                 this.obstacles = [];
                 break;
-
+            case 3:
+                this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
+                this.player = new Player(this.ctx, this.width, this.height, this.keys, 2);
+                let enemy31 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 300, 300, 80, 80, 2)
+                this.enemies.push(enemy31)
+                this.obstacles = [];
+                break;
         }
 
         //gameWidth, gameHeight, url, spriteWidth, spriteHeight, frames, speed, rows, spriteIndexs, posX, posY, width, height,level
@@ -120,7 +141,7 @@ const game = {
     },
 
     generateObstacles() {
-        if (this.framesCounter % 600 == 0) {
+        if (this.framesCounter % 700 == 0) {
             this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height));
         }
     },
@@ -131,13 +152,11 @@ const game = {
     touchesWalls(player) {
         return this.background.walls.some(wall => this.overlap(player, wall))
     },
-    touchesEnemies(player) {
-        //console.log
-        return this.enemies.some(enemy => this.overlap(player, enemy))
+    touchesObstacles(player) {
+        return this.obstacles.some(obs => this.overlap(player, obs))
     },
 
     touchesEnemies(player) {
-        //console.log
         return this.enemies.some(enemy => this.overlap(player, enemy))
     },
 
@@ -148,12 +167,9 @@ const game = {
 
         for (let i = 0; i < this.enemies.length; i++) {
             let pos = this.enemies[i];
-            //var size = enemies[i].sprite.size;
 
             for (let j = 0; j < this.player.bullets.length; j++) {
                 let pos2 = this.player.bullets[j];
-                //var size2 = bullets[j].sprite.size;
-
 
                 if (pos.posX + pos.spriteWidth > pos2.posX &&
                     pos.posX < pos2.posX + pos2.playerHeight &&
@@ -184,7 +200,6 @@ const game = {
             player.posX < entity.posX + entity.width &&
             player.posY + player.height > entity.posY &&
             player.posY < entity.posY + entity.height) {
-            //console.log('OVERLAP TRUEEEEEEE')
             return true;
         }
         return false;
@@ -233,7 +248,10 @@ const game = {
     },
 
     gameOver() {
+        const gameoverAudio = new Audio('./audio/gameover.wav');
         clearInterval(this.interval);
+        audioElement.pause();
+        gameoverAudio.play();
     }
 
 

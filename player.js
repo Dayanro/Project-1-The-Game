@@ -29,10 +29,12 @@ class Player {
 
         this.keys = keys;
 
-        this.speed = 10;
+        this.speed = 15;
         this.gravity = 0.4;
 
         this.bullets = [];
+        this.countBullets = 6;
+
     }
 
     draw(framesCounter) {
@@ -40,11 +42,6 @@ class Player {
         const frameY = this.image.posY;
         const sx = frameX * Math.floor(this.image.width / this.image.frames);
         const sy = frameY * Math.floor(this.image.height / this.image.rows);
-
-        //console.log('width', sx)
-        //console.log('height', sy)
-
-
         this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height);
         this.bullets.forEach(bullet => bullet.draw())
         this.clearBullets()
@@ -56,10 +53,6 @@ class Player {
         this.image.posY = pos[1];
         let max = spriteIndexs.length
         this.image.framesIndex = (++this.image.framesIndex % max);
-
-
-        //console.log('INDEX', this.image.framesIndex)
-        //console.log('position', this.posX, this.posY)
     }
 
     move(dir) {
@@ -71,15 +64,18 @@ class Player {
     }
 
     shoot() {
-        this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height));
-    }
-
-    clearBullets() {
+        if (this.countBullets > 0) {
+            this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height))
+            this.countBullets--
+        }
         this.bullets.forEach(bullet => {
-            if (bullet.posX == 1220) {
+            if (bullet.posX == 1100) {
                 this.bullets.splice(bullet, 1);
             }
         })
+    }
+
+    clearBullets() {
         this.bullets = this.bullets.filter(bull => bull.posX <= this.gameWidth);
     }
 
