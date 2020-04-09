@@ -33,5 +33,6 @@ class Bullets {
         if (this.posY >= this.playerPosY0 + this.playerHeight) {
             this.velY *= -1;
         }
+
     }
 }

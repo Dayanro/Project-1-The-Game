@@ -13,7 +13,7 @@ const game = {
     background: undefined,
     player: undefined,
     enemies: [],
-    level: 2,
+    level: 1,
     obstacles: [],
     keys: {
         TOP: 38,
@@ -127,6 +127,44 @@ const game = {
         return this.enemies.some(enemy => this.overlap(player, enemy))
     },
 
+    updateGameArea() {
+
+        console.log(this.enemies)
+        console.log(this.player.bullets)
+
+        for (let i = 0; i < this.enemies.length; i++) {
+            let pos = this.enemies[i];
+            //var size = enemies[i].sprite.size;
+
+            for (let j = 0; j < this.player.bullets.length; j++) {
+                let pos2 = this.player.bullets[j];
+                //var size2 = bullets[j].sprite.size;
+
+
+                if (pos.posX + pos.spriteWidth > pos2.posX &&
+                    pos.posX < pos2.posX + pos2.playerHeight &&
+                    pos.posY + pos.spriteHeight > pos2.posY &&
+                    pos.posY < pos2.posY + pos2.playerHeight) {
+                    // Remove the enemy
+                    this.enemies.splice(i, 1);
+                    i--;
+                    console.log('entra')
+                    // Add score
+                    //score += 100;
+
+                    // Remove the bullet and stop this iteration
+                    this.player.bullets.splice(j, 1);
+
+                    break;
+                }
+            }
+
+            // if (boxCollides(pos, size, player.pos, player.sprite.size)) {
+            //     gameOver();
+            // }
+        }
+    },
+
     overlap(player, entity) {
         if (player.posX + player.width > entity.posX &&
             player.posX < entity.posX + entity.width &&
@@ -174,7 +212,7 @@ const game = {
                     break;
                 case this.keys.SPACE:
                     this.player.shoot();
-                    this.player.animate();
+                    this.updateGameArea()
                     break;
             }
         });

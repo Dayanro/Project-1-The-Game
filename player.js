@@ -75,6 +75,11 @@ class Player {
     }
 
     clearBullets() {
+        this.bullets.forEach(bullet => {
+            if (bullet.posX == 1100) {
+                this.bullets.splice(bullet, 1);
+            }
+        })
         this.bullets = this.bullets.filter(bull => bull.posX <= this.gameWidth);
     }
 

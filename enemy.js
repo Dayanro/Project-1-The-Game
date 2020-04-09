@@ -46,7 +46,8 @@ class Enemy {
         switch (this.level) {
             case 1:
                 //if (this.level == 1) {
-                console.log("LEVEL1")
+                //console.log("LEVEL1")
+                this.posY += this.speed
                 for (let i = 1; i <= 20; i++) {
                     if (this.posY == 340) {
                         this.speed = this.speed * (-1)
@@ -64,47 +65,34 @@ class Enemy {
                 } else if (this.posY - this.starty == 50 && this.posX - this.startx == 50) {
                     this.moveType = 'B';
                 }
-                console.log('moveType', this.moveType)
+                //console.log('moveType', this.moveType)
 
                 if (this.moveType == 'A') {
 
                     if (this.starty == this.posY) {
                         this.speedY = this.speed
                         this.speedX = 0
-                        console.log('AA')
+                        //console.log('AA')
                     } else if (this.posY - this.starty == 50) {
                         this.speedY = 0
                         this.speedX = this.speed
-                        console.log('AB')
+                        //console.log('AB')
                     }
                 } else if (this.moveType == 'B') {
                     if (this.posX - this.startx == 50 && (this.posY - this.starty) == 50) {
                         this.speedY = 0
                         this.speedX = (this.speed * -1)
-                        console.log('BA')
+                        //console.log('BA')
                     } else if (this.posX == this.startx && this.posY - this.starty == 50) {
                         this.speedY = (this.speed * -1)
                         this.speedX = 0
-                        console.log('BB')
+                        //console.log('BB')
                     }
                 }
 
                 this.posY += this.speedY
                 this.posX += this.speedX
                 break;
-            // if (this.posY < 400) {
-            //     this.posY += this.speed
-            // }
-            // else if (this.posY == 440) {
-            //     this.posX += this.speed
-            // }
-            // if (this.posX == 550) {
-            //     this.speed = this.speed * (-1)
-            //     this.posX += this.speed
-            // } else if (this.posX == 300) {
-            //     this.posY += this.speed
-            // }
-            // break;
         }
     }
 }
