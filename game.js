@@ -13,7 +13,7 @@ const game = {
     background: undefined,
     player: undefined,
     enemies: [],
-    level: 2,
+    level: 1,
     obstacles: [],
     keys: {
         TOP: 38,

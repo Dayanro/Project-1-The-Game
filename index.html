@@ -5,7 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=New+Rocker&family=Press+Start+2P&family=Rakkas&family=Rye&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>Selda Game</title>
 </head>
 
 <body>
@@ -13,18 +17,32 @@
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
     </style>
-    <canvas id="myCanvas"></canvas>
 
-    <script src="./bullets.js"></script>
-    <script src="./obstacles.js"></script>
-    <script src="./enemy.js"></script>
-    <script src="./player.js"></script>
-    <script src="./background.js"></script>
-    <script src="./game.js"></script>
-    <script src="./index.js"></script>
+    <body>
+        <div class="game-intro">
+            <h1>The Legend of <span>Selda</span>: </h1>
+            <h2>Girl Power</h2>
 
-</body>
+            <img src="" alt="" class="logo-img" />
+            <button id="start-button">Start Game</button>
+            <p>Use the arrow keys to move!</p>
+            <img src="./img/teclado.png" alt="" class="arrows-img" />
+        </div>
+
+
+        <canvas id="myCanvas" class="hidden"></canvas>
+
+        <script src="./bullets.js"></script>
+        <script src="./obstacles.js"></script>
+        <script src="./enemy.js"></script>
+        <script src="./player.js"></script>
+        <script src="./background.js"></script>
+        <script src="./game.js"></script>
+        <script src="./index.js"></script>
+
+    </body>
 
 </html>
