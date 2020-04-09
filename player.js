@@ -23,8 +23,8 @@ class Player {
         this.status = ["POWER", "NORMAL"]
         this.actualStatus = this.status[0];
 
-        this.posX = 340;
-        this.posY = 450;
+        this.posX = 180;
+        this.posY = 400;
         this.posY0 = this.posY;
 
         this.keys = keys;
@@ -76,7 +76,7 @@ class Player {
 
     clearBullets() {
         this.bullets.forEach(bullet => {
-            if (bullet.posX == 1100) {
+            if (bullet.posX == 1220) {
                 this.bullets.splice(bullet, 1);
             }
         })

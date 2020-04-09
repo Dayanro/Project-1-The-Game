@@ -49,11 +49,11 @@ class Enemy {
                 //console.log("LEVEL1")
                 this.posY += this.speed
                 for (let i = 1; i <= 20; i++) {
-                    if (this.posY == 340) {
+                    if (this.posY == 480) {
                         this.speed = this.speed * (-1)
                         this.posY += this.speed
                     }
-                    if (this.posY == 570) {
+                    if (this.posY == 300) {
                         this.speed = this.speed * (-1)
                         this.posY += this.speed
                     }

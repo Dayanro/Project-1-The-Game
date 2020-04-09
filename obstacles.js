@@ -4,7 +4,7 @@ class Obstacle {
         this.width = 35;
         this.height = this.width / 3;
 
-        this.posX = 750;
+        this.posX = 943;
         this.posY = 300;
 
         this.velY = 1;

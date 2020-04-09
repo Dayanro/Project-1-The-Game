@@ -12,16 +12,17 @@ class Background {
         this.posX = 0;
         this.posY = 0;
 
-        this.walls = [{ posX: 288, posY: 229, width: 830, height: 117 },//top
-        { posX: 288, posY: 614, width: 830, height: 96 },//botton
-        { posX: 288, posY: 345, width: 64, height: 90 },//left top
-        { posX: 288, posY: 525, width: 64, height: 88 },// left botton
-        { posX: 223, posY: 229, width: 64, height: 482 },// left side
-        { posX: 1055, posY: 345, width: 64, height: 120 },//right top
-        { posX: 1055, posY: 560, width: 64, height: 53 },//right botton
-        { posX: 1119, posY: 229, width: 64, height: 482 }// right side
+        this.walls = [{ posX: 160, posY: 159, width: 1120, height: 127 },//top
+        { posX: 160, posY: 545, width: 1120, height: 125 },//botton
+        { posX: 160, posY: 290, width: 64, height: 85 },//left top
+        { posX: 160, posY: 465, width: 64, height: 88 },// left botton
+        { posX: 96, posY: 159, width: 64, height: 510 },// left side
+        { posX: 1200, posY: 290, width: 79, height: 58 },//right top
+        { posX: 1220, posY: 450, width: 64, height: 98 },//right botton
+        { posX: 1282, posY: 159, width: 64, height: 516 }// right side
         ]
     }
+
     draw() {
         this.ctx.drawImage(this.image, this.posX, this.posY, this.width, this.height);
     }
@@ -31,7 +32,7 @@ class Background {
     }
     drawWalls() {
         this.walls.forEach(value => {
-            this.ctx.strokeStyle = 'rgba(255, 0, 0, 0)' // 'red'
+            this.ctx.strokeStyle = 'rgba(255, 0, 0, 0)' //'red'
             this.ctx.strokeRect(value.posX, value.posY, value.width, value.height)
         })
     }

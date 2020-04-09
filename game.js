@@ -13,7 +13,7 @@ const game = {
     background: undefined,
     player: undefined,
     enemies: [],
-    level: 1,
+    level: 2,
     obstacles: [],
     keys: {
         TOP: 38,
@@ -74,25 +74,39 @@ const game = {
     reset(level) {
         switch (level) {
             case 1:
-                this.background = new Background(this.ctx, this.width, this.height, "./img/level1.png");
+                this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
                 this.player = new Player(this.ctx, this.width, this.height, this.keys, 1);
-                let enemy1 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 0.5, 1, [0, 1, 2, 3, 4], 400, 390, 80, 80, 1)
-                this.enemies.push(enemy1)
-                let enemy2 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4, 5], 600, 500, 80, 80, 1)
-                this.enemies.push(enemy2)
-                let enemy3 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 0.5, 1, [0, 1, 2, 3, 4, 5], 1000, 500, 80, 80, 1)
-                this.enemies.push(enemy3)
+                let enemy11 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4], 300, 300, 80, 80, 1)
+                this.enemies.push(enemy11)
+                let enemy12 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 2, 1, [0, 1, 2, 3, 4, 5], 530, 300, 80, 80, 1)
+                this.enemies.push(enemy12)
+                let enemy13 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4, 5], 700, 300, 80, 80, 1)
+                this.enemies.push(enemy13)
+                let enemy14 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 2, 1, [0, 1, 2, 3, 4, 5], 820, 300, 80, 80, 1)
+                this.enemies.push(enemy14)
+                let enemy15 = new Enemy(this.ctx, this.width, this.height, "./img/enemy5.png", 224, 35, 6, 1, 1, [0, 1, 2, 3, 4, 5], 1100, 300, 80, 80, 1)
+                this.enemies.push(enemy15)
                 this.obstacles = [];
                 break;
             case 2:
-                this.background = new Background(this.ctx, this.width, this.height, "./img/level1.png");
+                this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
                 this.player = new Player(this.ctx, this.width, this.height, this.keys, 2);
-                let enemy4 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 400, 350, 80, 80, 2)
-                this.enemies.push(enemy4)
-                let enemy5 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 600, 400, 80, 80, 2)
-                this.enemies.push(enemy5)
-                let enemy6 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 800, 350, 80, 80, 2)
-                this.enemies.push(enemy6)
+                let enemy21 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 300, 300, 80, 80, 2)
+                this.enemies.push(enemy21)
+                let enemy22 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 470, 400, 80, 80, 2)
+                this.enemies.push(enemy22)
+                let enemy23 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 600, 350, 80, 80, 2)
+                this.enemies.push(enemy23)
+                let enemy24 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 800, 300, 80, 80, 2)
+                this.enemies.push(enemy24)
+                let enemy25 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1000, 400, 80, 80, 2)
+                this.enemies.push(enemy25)
+                let enemy26 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1100, 350, 80, 80, 2)
+                this.enemies.push(enemy26)
+                // let enemy27 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1000, 400, 80, 80, 2)
+                // this.enemies.push(enemy27)
+                // let enemy28 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1100, 350, 80, 80, 2) 
+                // this.enemies.push(enemy28)
                 this.obstacles = [];
                 break;
 
@@ -106,7 +120,7 @@ const game = {
     },
 
     generateObstacles() {
-        if (this.framesCounter % 400 == 0) {
+        if (this.framesCounter % 600 == 0) {
             this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height));
         }
     },
