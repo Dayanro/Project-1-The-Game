@@ -33,7 +33,7 @@ class Player {
         this.gravity = 0.4;
 
         this.bullets = [];
-        this.countBullets = 6;
+        this.countBullets = 3;
 
     }
 
@@ -64,6 +64,10 @@ class Player {
     }
 
     shoot() {
+        if (this.level == 3) {
+            this.countBullets = 1;
+        }
+
         if (this.countBullets > 0) {
             this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY0, this.width, this.height))
             this.countBullets--

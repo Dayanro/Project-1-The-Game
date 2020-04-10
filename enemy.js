@@ -19,6 +19,8 @@ class Enemy {
         this.width = width
         this.height = height
 
+        this.bullets = []
+
         this.posX = posX
         this.posY = posY
         this.startx = posX
@@ -27,26 +29,36 @@ class Enemy {
         this.speedX = 0
         this.moveType = 'A';
 
+
     }
     draw(framesCounter) {
 
-        const frameX = this.image.framesIndex;
-        const frameY = this.image.posY;
-        const sx = frameX * Math.floor(this.image.width / this.image.frames);
-        const sy = 0;
-        this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height)
+
+
+
         let max = this.spriteIndexs.length
-        this.image.framesIndex = (this.image.framesIndex + 60) % max;
-        //this.posX += this.speed
+        this.image.framesIndex = 0//((this.image.framesIndex + 1) % max) / 0.5;
         this.moveX()
-        //console.log(this.posX)
+        if (this.level == 3) {
+            this.shoot(framesCounter)
+            this.bullets.forEach(bullet => bullet.draw())
+        }
+        this.ctx.drawImage(
+            this.image,
+            this.image.framesIndex * Math.floor(this.image.width / this.image.frames),
+            0,
+            Math.floor(this.image.width / this.image.frames),
+            136,
+            this.posX,
+            this.posY,
+            this.width,
+            this.height)
+
     }
     moveX() {
         //this.posY += this.speed
         switch (this.level) {
             case 1:
-                //if (this.level == 1) {
-                //console.log("LEVEL1")
                 this.posY += this.speed
                 for (let i = 1; i <= 20; i++) {
                     if (this.posY == 480) {
@@ -65,34 +77,58 @@ class Enemy {
                 } else if (this.posY - this.starty == 50 && this.posX - this.startx == 50) {
                     this.moveType = 'B';
                 }
-                //console.log('moveType', this.moveType)
 
                 if (this.moveType == 'A') {
 
                     if (this.starty == this.posY) {
                         this.speedY = this.speed
                         this.speedX = 0
-                        //console.log('AA')
                     } else if (this.posY - this.starty == 50) {
                         this.speedY = 0
                         this.speedX = this.speed
-                        //console.log('AB')
                     }
                 } else if (this.moveType == 'B') {
                     if (this.posX - this.startx == 50 && (this.posY - this.starty) == 50) {
                         this.speedY = 0
                         this.speedX = (this.speed * -1)
-                        //console.log('BA')
                     } else if (this.posX == this.startx && this.posY - this.starty == 50) {
                         this.speedY = (this.speed * -1)
                         this.speedX = 0
-                        //console.log('BB')
                     }
+
                 }
 
                 this.posY += this.speedY
                 this.posX += this.speedX
                 break;
+            case 3:
+                if (this.posY == this.starty) {
+                    this.moveType = 'A';
+                } else if (this.posY - this.starty == 150) {
+                    this.moveType = 'B';
+                }
+
+                if (this.moveType == 'A') {
+
+                    this.speedY = this.speed
+
+
+
+                } else if (this.moveType == 'B') {
+                    this.speedY = (this.speed * -1)
+                }
+
+                this.posY += this.speedY
+
+
+                break;
+
+        }
+    }
+
+    shoot(framesCounter) {
+        if (framesCounter % 170 == 0) {
+            this.bullets.push(new Bullets(this.ctx, this.posX, this.posY, this.posY, this.width, this.height, -5))
         }
     }
 }

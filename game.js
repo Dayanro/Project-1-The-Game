@@ -9,6 +9,7 @@ const game = {
     width: undefined,
     height: undefined,
     heartImage: new Image(),
+    swordImage: new Image(),
 
     FPS: 60,
     framesCounter: 0,
@@ -24,7 +25,13 @@ const game = {
         SPACE: 32,
         DOWN: 40
     },
-
+    score: 0,
+    audios: {
+        enemyDies: new Audio('./audio/enemy_dies.wav'),
+        gameOver: new Audio('./audio/gameover.wav'),
+        fire: new Audio('./audio/fire.wav'),
+        nextLevel: new Audio('./audio/next_level.wav'),
+    },
     init() {
         this.canvasDom = document.getElementById("myCanvas");
         this.ctx = this.canvasDom.getContext("2d");
@@ -50,11 +57,11 @@ const game = {
             this.framesCounter++;
             this.clear();
             this.drawAll();
-            this.generateObstacles();
+
             this.clearObstacles();
             this.nextLevel()
 
-            if (this.touchesEnemies(this.player)) {
+            if (this.touchesEnemies(this.player) || this.touchesObstacles(this.player) || this.touchesBullets(this.player)) {
                 this.gameOver();
             }
         }, 1000 / this.FPS);
@@ -72,19 +79,42 @@ const game = {
     drawBoard() {
         this.heartImage.src = "./img/heart1.png"
         this.ctx.drawImage(this.heartImage, 200, 100, 50, 50)
+        this.ctx.font = "20px Rye, cursive"
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText("x 1", 250, 150)
+
+
+        this.swordImage.src = "./img/attack1.png"
+        this.ctx.drawImage(this.swordImage, 300, 100, 50, 50)
+        this.ctx.font = "20px Rye, cursive"
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText(`x ${this.player.countBullets}`, 350, 150)
+
+        this.ctx.font = "30px Rye, cursive"
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText(`level ${this.level}`, 450, 150)
+
+        this.ctx.font = "20px Rye, cursive"
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText(`use space keyboard to fire magic`, 170, 700)
     },
 
     nextLevel() {
-        console.log("nextLevel")
-        if (this.player.posX > 1100) {
+        if (this.player.posX > 1100 && this.level < 3) {
             this.level++
-            console.log('DISTANCIA', this.level)
             this.reset(this.level)
+            this.audios.nextLevel.play();
+        } else if (this.player.posX > 1100 && this.level == 3) {
+            clearInterval(this.interval);
+            this.ctx.font = "60px Rye, cursive"
+            this.ctx.fillStyle = "white"
+            this.ctx.fillText(`You win!!`, this.width / 2 - 100, this.height / 2)
         }
     },
 
     reset(level) {
         this.enemies = []
+
         switch (level) {
             case 1:
                 this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
@@ -101,6 +131,7 @@ const game = {
                 this.enemies.push(enemy15)
                 //this.background.drawElements = new Element(this.ctx, this.width, this.height, "./img/heart1.png", 200, 100, 50, 50))
                 this.obstacles = [];
+                this.generateObstacles();
 
                 break;
             case 2:
@@ -120,15 +151,18 @@ const game = {
                 this.enemies.push(enemy26)
                 // let enemy27 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1000, 400, 80, 80, 2)
                 // this.enemies.push(enemy27)
-                // let enemy28 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1100, 350, 80, 80, 2) 
+                // let enemy28 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 1100, 350, 30, 80, 2) 
                 // this.enemies.push(enemy28)
                 this.obstacles = [];
+                this.generateObstacles();
                 break;
             case 3:
                 this.background = new Background(this.ctx, this.width, this.height, "./img/lv1.png");
-                this.player = new Player(this.ctx, this.width, this.height, this.keys, 2);
-                let enemy31 = new Enemy(this.ctx, this.width, this.height, "./img/enemy1.png", 483, 159, 5, 1, 1, [0, 1, 2, 3, 4], 300, 300, 80, 80, 2)
+                this.player = new Player(this.ctx, this.width, this.height, this.keys, 3);
+                let enemy31 = new Enemy(this.ctx, this.width, this.height, "./img/wizard1.png", 116, 136, 6, 1, 1, [0, 1, 2, 3, 4, 5], 900, 278, 100, 100, 3)
+                let enemy32 = new Enemy(this.ctx, this.width, this.height, "./img/wizard1.png", 116, 136, 6, 0.5, 1, [0, 1, 2, 3, 4, 5], 600, 278, 100, 100, 3)
                 this.enemies.push(enemy31)
+                this.enemies.push(enemy32)
                 this.obstacles = [];
                 break;
         }
@@ -141,7 +175,7 @@ const game = {
     },
 
     generateObstacles() {
-        if (this.framesCounter % 700 == 0) {
+        if (this.framesCounter % 120 == 0) {
             this.obstacles.push(new Obstacle(this.ctx, this.width, this.player.posY0, this.player.height));
         }
     },
@@ -160,10 +194,30 @@ const game = {
         return this.enemies.some(enemy => this.overlap(player, enemy))
     },
 
-    updateGameArea() {
+    touchesBullets() {
 
-        console.log(this.enemies)
-        console.log(this.player.bullets)
+        for (let i = 0; i < this.enemies.length; i++) {
+            let enemy = this.enemies[i];
+
+            for (let j = 0; j < enemy.bullets.length; j++) {
+                let bullet = enemy.bullets[j];
+
+                if (this.player.posX + this.player.width > bullet.posX &&
+                    this.player.posX < bullet.posX + bullet.playerHeight / 3 &&
+                    this.player.posY + this.player.height > bullet.posY &&
+                    this.player.posY < bullet.posY + bullet.playerHeight / 3) {
+
+                    enemy.bullets.splice(j, 1);
+                    this.gameOver()
+
+                    break;
+                }
+            }
+
+        }
+    },
+
+    updateGameArea() {
 
         for (let i = 0; i < this.enemies.length; i++) {
             let pos = this.enemies[i];
@@ -178,20 +232,14 @@ const game = {
                     // Remove the enemy
                     this.enemies.splice(i, 1);
                     i--;
-                    console.log('entra')
-                    // Add score
-                    //score += 100;
+                    this.score += 100;
 
-                    // Remove the bullet and stop this iteration
                     this.player.bullets.splice(j, 1);
+                    this.audios.enemyDies.play();
 
                     break;
                 }
             }
-
-            // if (boxCollides(pos, size, player.pos, player.sprite.size)) {
-            //     gameOver();
-            // }
         }
     },
 
@@ -242,16 +290,23 @@ const game = {
                 case this.keys.SPACE:
                     this.player.shoot();
                     this.updateGameArea()
+                    this.audios.fire.volume = 1;
+                    this.audios.fire.play();
                     break;
             }
         });
     },
 
     gameOver() {
-        const gameoverAudio = new Audio('./audio/gameover.wav');
         clearInterval(this.interval);
+        this.ctx.font = "50px Rye, cursive"
+        this.ctx.fillStyle = "white"
+        this.ctx.fillText(`Game over`, this.width / 2 - 100, this.height / 2)
+        setTimeout(() => {
+            this.reset(1);
+        }, 3000)
         audioElement.pause();
-        gameoverAudio.play();
+        this.audios.gameOver.play();
     }
 
 

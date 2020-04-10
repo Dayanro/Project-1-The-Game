@@ -1,15 +1,15 @@
 class Bullets {
 
-    constructor(ctx, playerPosX, playerPosY, playerPosY0, playerWidth, playerHeight) {
+    constructor(ctx, playerPosX, playerPosY, playerPosY0, playerWidth, playerHeight, velX) {
         this.ctx = ctx;
         this.posX = playerPosX + playerWidth;
         this.posY = playerPosY + playerHeight / 2;
-        this.playerPosY0 = playerPosY0;
+        this.playerPosY0 = playerPosY;
         this.playerHeight = playerHeight;
 
         this.radius = 4;
 
-        this.velX = 10;
+        this.velX = velX || 10;
         this.velY = 1;
 
         this.gravity = 1;
@@ -26,13 +26,13 @@ class Bullets {
 
     move() {
         this.posX += this.velX;
-        this.posY += this.velY;
+        //this.posY += this.velY;
 
-        this.velY += this.gravity;
+        //this.velY += this.gravity;
 
-        if (this.posY >= this.playerPosY0 + this.playerHeight) {
-            this.velY *= -1;
-        }
+        // if (this.posY >= this.playerPosY0 + this.playerHeight) {
+        //     this.velY *= -1;
+        // }
 
     }
 }
