@@ -16,6 +16,7 @@ class Player {
         this.image.framesIndex = 0;
         this.image.frames = 4;
         this.image.rows = 4;
+        this.image.posY = 2;
 
         this.width = 50
         this.height = 50
@@ -42,11 +43,9 @@ class Player {
         const frameY = this.image.posY;
         const sx = frameX * Math.floor(this.image.width / this.image.frames);
         const sy = frameY * Math.floor(this.image.height / this.image.rows);
-        this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height);
         this.bullets.forEach(bullet => bullet.draw())
         this.clearBullets()
-        this.move()
-
+        this.ctx.drawImage(this.image, sx, sy, Math.floor(this.image.width / this.image.frames), this.height, this.posX, this.posY, this.width, this.height);
     }
 
     animate(pos, spriteIndexs) {
